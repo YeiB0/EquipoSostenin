@@ -1,1 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Subir PDF</title>
+</head>
+<body>
+    <h1>Sube el PDF para procesar</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit">Subir y Procesar</button>
+    </form>
 
+</body>
+</html>

@@ -11,15 +11,15 @@ def handle_uploaded_pdf(file):
   pass
 
 def upload_pdf(request):
-  if request.method == 'POST':
-    form =  UploadPDFForm(request.POST, request.FILES)
-    if form.is_valid():
-      pdf_file = request.FILES['pdf_file']
-      handle_uploaded_pdf(pdf_file)#esto llama a la logica para procesar el archivo
-      return HttpResponse("PDF recibido y procesado) 
+    if request.method == 'POST':
+        form =  UploadPDFForm(request.POST, request.FILES)
+        if form.is_valid():
+            pdf_file = request.FILES['pdf_file']
+            handle_uploaded_pdf(pdf_file)#esto llama a la logica para procesar el archivo
+            return HttpResponse("PDF recibido y procesado") 
       #por ahora returna un mensaje, posterior se cambia para que retorne el excel
     else:
-      form = UploadPDFForm()
+        form = UploadPDFForm()
     return render(request, 'EquipoSostenin/upload.html', {'form': form})
                         
 

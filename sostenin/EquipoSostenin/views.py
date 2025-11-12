@@ -4,6 +4,7 @@ from .forms import BoletaForm
 from .procesador import procesar_boleta
 from django.contrib.auth.decorators import login_required
 from .models import Boleta
+import json
 
 def home_view(request):
     html = (
@@ -31,12 +32,6 @@ def subir_boleta_view(request):
 
 @login_required
 def dashboard_view(request):
-    """
-    Muestra al usuario todas sus boletas procesadas.
-    """
-    # 1. Filtramos las boletas por el usuario que ha iniciado sesión
-    # 2. Filtramos solo las que están 'PROCESADO' (no 'PENDIENTE' o 'ERROR')
-    # 3. Las ordenamos por fecha (de más nueva a más antigua)
     boletas_procesadas = Boleta.objects.filter(
         usuario=request.user,
         estado_procesamiento='PROCESADO'
@@ -47,7 +42,33 @@ def dashboard_view(request):
         usuario=request.user,
         estado_procesamiento='ERROR'
     ).order_by('-fecha_registro')
+
+    boletas_luz = boletas_procesadas.filter(servicio='Luz').order_by('fecha_emision')
+    boletas_agua = boletas_procesadas.filter(servicio='Agua').order_by('fecha_emision')
     
+    chart_luz_labels = json.dumps([b.fecha_emision.isoformat() for b in boletas_luz])
+    chart_luz_data_monto = json.dumps([b.monto for b in boletas_luz])
+    chart_luz_data_consumo = json.dumps([float(b.consumo) for b in boletas_luz])
+
+    chart_agua_labels = json.dumps([b.fecha_emision.isoformat() for b in boletas_agua])
+    chart_agua_data_monto = json.dumps([b.monto for b in boletas_agua])
+    chart_agua_data_consumo = json.dumps([float(b.consumo) for b in boletas_agua])
+
+    context = {
+        'boletas_ok': boletas_procesadas,
+        'boletas_error': boletas_error,
+        'nombre_usuario': request.user.username,
+        'chart_luz_labels':chart_luz_labels,
+        'chart_luz_data_monto': chart_luz_data_monto,
+        'chart_luz_data_consumo': chart_luz_data_consumo,
+        'boletas_luz_existen': boletas_luz.exists(), 
+        'chart_agua_labels': chart_agua_labels,
+        'chart_agua_data_monto': chart_agua_data_monto,
+        'chart_agua_data_consumo': chart_agua_data_consumo,
+        'boletas_agua_existen': boletas_agua.exists(),
+    }
+    return render(request, 'EquipoSostenin/dashboard.html', context)
+        
     # 3. Pasamos los datos a la plantilla
     context = {
         'boletas_ok': boletas_procesadas,

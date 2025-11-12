@@ -3,15 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi Panel - Sostenin</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    
     <style>
-        body { font-family: sans-serif; margin: 2em; }
+        body { font-family: sans-serif; margin: 2em; background-color: #f9f9f9; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; background-color: #fff; }
         th { background-color: #f4f4f4; }
         .success { background-color: #e6ffe6; }
         .error { background-color: #ffe6e6; color: #a00; }
         .container { max-width: 900px; margin: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; }
+        .chart-container {
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -25,8 +37,21 @@
         
         <hr>
 
-        <h3>Mis Boletas Procesadas</h3>
-        
+        {% if boletas_luz_existen %}
+            <div class="chart-container">
+                <h3>Historial de Consumo - Luz (Chilquinta)</h3>
+                <canvas id="graficoLuz"></canvas>
+            </div>
+        {% endif %}
+
+        {% if boletas_agua_existen %}
+            <div class="chart-container">
+                <h3>Historial de Consumo - Agua (Esval)</h3>
+                <canvas id="graficoAgua"></canvas>
+            </div>
+        {% endif %}
+
+        <h3 style="margin-top: 40px;">Mis Boletas Procesadas</h3>
         {% if boletas_ok %}
             <table>
                 <thead>
@@ -54,13 +79,9 @@
             <p>Aún no tienes boletas procesadas. ¡Intenta <a href="{% url 'subir_boleta' %}">subir una</a>!</p>
         {% endif %}
 
-
+        
         {% if boletas_error %}
             <h3 style="margin-top: 40px;">Boletas con Error de Procesamiento</h3>
-            <p>
-                No pudimos leer automáticamente las siguientes boletas. 
-                Por favor, revísalas y vuelve a subirlas.
-            </p>
             <table>
                 <thead>
                     <tr>
@@ -82,6 +103,127 @@
         {% endif %}
 
     </div>
+
+    <script>
+        
+        // --- INICIO: Gráfico de LUZ ---
+        const canvasLuz = document.getElementById('graficoLuz');
+        if (canvasLuz) {
+            
+            // --- INICIO DE LA CORRECCIÓN ---
+            // Quitamos JSON.parse(). Los datos de Django ya son un array JS.
+            const labelsLuz = {{ chart_luz_labels|safe }};
+            const dataMontoLuz = {{ chart_luz_data_monto|safe }};
+            const dataConsumoLuz = {{ chart_luz_data_consumo|safe }};
+            // --- FIN DE LA CORRECCIÓN ---
+
+            new Chart(canvasLuz, {
+                type: 'line', 
+                data: {
+                    labels: labelsLuz,
+                    datasets: [
+                        {
+                            label: 'Monto Total ($)',
+                            data: dataMontoLuz,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            yAxisID: 'yMonto',
+                        },
+                        {
+                            label: 'Consumo (kWh)',
+                            data: dataConsumoLuz,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            yAxisID: 'yConsumo',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month',
+                                tooltipFormat: 'MMM yyyy'
+                            },
+                            title: { display: true, text: 'Fecha de Emisión' }
+                        },
+                        yMonto: {
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: 'Monto Total ($)' }
+                        },
+                        yConsumo: {
+                            type: 'linear',
+                            position: 'right',
+                            title: { display: true, text: 'Consumo (kWh)' },
+                            grid: { drawOnChartArea: false } 
+                        }
+                    }
+                }
+            });
+        }
+        
+        // --- INICIO: Gráfico de AGUA ---
+        const canvasAgua = document.getElementById('graficoAgua');
+        if (canvasAgua) {
+            
+            // --- INICIO DE LA CORRECCIÓN ---
+            const labelsAgua = {{ chart_agua_labels|safe }};
+            const dataMontoAgua = {{ chart_agua_data_monto|safe }};
+            const dataConsumoAgua = {{ chart_agua_data_consumo|safe }};
+            // --- FIN DE LA CORRECCIÓN ---
+
+            new Chart(canvasAgua, {
+                type: 'line',
+                data: {
+                    labels: labelsAgua,
+                    datasets: [
+                        {
+                            label: 'Monto Total ($)',
+                            data: dataMontoAgua,
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            yAxisID: 'yMonto',
+                        },
+                        {
+                            label: 'Consumo (m³)',
+                            data: dataConsumoAgua,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            yAxisID: 'yConsumo',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month',
+                                tooltipFormat: 'MMM yyyy'
+                            },
+                            title: { display: true, text: 'Fecha de Emisión' }
+                        },
+                        yMonto: {
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: 'Monto Total ($)' }
+                        },
+                        yConsumo: {
+                            type: 'linear',
+                            position: 'right',
+                            title: { display: true, text: 'Consumo (m³)' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+        }
+        
+    </script>
 
 </body>
 </html>

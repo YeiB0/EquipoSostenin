@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'EquipoSostenin',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +126,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# En sostenin/sostenin/settings.py (al final)
+
+# URL a la que se redirige si un usuario no está logueado
+# (Usa el 'name' de tu URL 'login' de account/urls.py)
+LOGIN_URL = 'login' 
+
+# URL a la que se redirige después de un login exitoso
+# (Usamos el 'name' de tu vista de dashboard)
+LOGIN_REDIRECT_URL = 'dashboard'
+
+# URL a la que se redirige después de cerrar sesión
+LOGOUT_REDIRECT_URL = 'home'

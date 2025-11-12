@@ -6,12 +6,22 @@ from django.contrib.auth.decorators import login_required
 from .models import Boleta
 import json
 
+@login_required
 def home_view(request):
+    # Como está protegido por @login_required, ya no necesitamos
+    # el 'if request.user.is_authenticated'.
+    
+    # Este es el nuevo "Hub" para usuarios logueados
     html = (
-        "<h1>Bienvenido a Sostenin</h1>"
-        "<p><a href='/admin/login/'>Iniciar Sesión (Admin)</a></p>"
-        "<p><a href='/subir/'>Subir nueva boleta (requiere login)</a></p>"
-    )   
+        f"<h1>Bienvenido al Hub, {request.user.username}!</h1>"
+        f"<p>Hola {request.user.first_name}, ¿Qué deseas hacer hoy?</p>"
+        "<hr>"
+        "<p><a href='/dashboard/' style='font-size: 1.2em;'>Ver mi Dashboard (Gráficos)</a></p>"
+        "<p><a href='/subir/' style='font-size: 1.2em;'>Subir Nueva Boleta</a></p>"
+        "<hr style='margin-top: 20px;'>" # Separador
+        # Añadimos el link de logout que apunta a la URL que creamos
+        "<p><a href='/account/logout/' style='font-size: 1em; color: gray;'>Cerrar Sesión</a></p>"
+    )
     return HttpResponse(html)
 
 @login_required

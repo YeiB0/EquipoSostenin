@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
@@ -11,7 +11,7 @@ def user_login(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, 'Inicio de sesión exitoso')
-            return redirect('/')
+            return redirect('home')
     else:
          form = AuthenticationForm()
            
@@ -27,3 +27,12 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'account/register.html', {'form': form})
+
+def user_logout(request):
+    # Usamos la función de logout de Django
+    logout(request)
+    messages.info(request, 'Has cerrado sesión exitosamente.')
+    
+    # Redirigimos al 'home'. Como 'home' está protegido,
+    # Django automáticamente redirigirá a la página 'login'.
+    return redirect('home')

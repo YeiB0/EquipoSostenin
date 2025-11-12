@@ -1,3 +1,10 @@
 from django import forms
-class UploadPDFForm(forms.Form):
-  pdf_file = forms.FileField(label = 'Selecciona tu archivo PDF')
+from .models import Boleta
+
+class BoletaForm(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = [
+            'servicio',
+            'archivo_boleta'
+        ]

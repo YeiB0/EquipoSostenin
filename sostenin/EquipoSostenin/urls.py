@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
-  path('upload/', views.upload_pdf, name='upload_pdf'),
+    path('', views.home_view, name='home'),
+    path('subir/', views.subir_boleta_view, name='subir_boleta'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
 ]

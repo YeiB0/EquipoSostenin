@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponse
 from .forms import BoletaForm
 from .procesador import procesar_boleta
 from django.contrib.auth.decorators import login_required
 from .models import Boleta
 import json
+from django.contrib import messages
 
 @login_required
 def home_view(request):
@@ -88,3 +89,17 @@ def dashboard_view(request):
     
     # 4. Renderizamos la nueva plantilla (que crearemos a continuación)
     return render(request, 'EquipoSostenin/dashboard.html', context)
+
+@login_required
+def delete_boleta_view(request, boleta_id):
+    boleta = get_object_or_404(Boleta, id=boleta_id)
+    if boleta.usuario == request.user and request.method == 'POST':
+        fecha_boleta = boleta.fecha_emision.strftime('%d-%m-%Y')
+        boleta.delete()
+        messages.success(request, f"Boleta del {fecha_boleta} eliminada correctamente.")
+
+    elif boleta.usuario != request.user:
+        messages.error(request, "No tienes permiso para eliminar esta boleta.")
+    else:
+        messages.error(request, "Error: Esta acción solo se puede realizar con un método POST.")
+    return redirect('dashboard')

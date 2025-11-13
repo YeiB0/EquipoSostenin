@@ -24,6 +24,19 @@
             padding: 20px;
             margin-top: 30px;
         }
+
+        .btn-delete {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .btn-delete:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -53,31 +66,43 @@
 
         <h3 style="margin-top: 40px;">Mis Boletas Procesadas</h3>
         {% if boletas_ok %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Servicio</th>
-                        <th>Fecha Emisión</th>
-                        <th>Consumo</th>
-                        <th>Monto Total ($)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for boleta in boletas_ok %}
-                    <tr class="success">
-                        <td>{{ boleta.get_servicio_display }}</td>
-                        <td>{{ boleta.fecha_emision }}</td>
-                        <td>{{ boleta.consumo|floatformat:0 }} 
-                            {% if boleta.servicio == 'Luz' %}kWh{% else %}m³{% endif %}
-                        </td>
-                        <td>{{ boleta.monto }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>Aún no tienes boletas procesadas. ¡Intenta <a href="{% url 'subir_boleta' %}">subir una</a>!</p>
-        {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Servicio</th>
+                <th>Fecha Emisión</th>
+                <th>Consumo</th>
+                <th>Monto Total ($)</th>
+                
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for boleta in boletas_ok %}
+            <tr class="success">
+                <td>{{ boleta.get_servicio_display }}</td>
+                <td>{{ boleta.fecha_emision }}</td>
+                <td>{{ boleta.consumo|floatformat:0 }} 
+                    {% if boleta.servicio == 'Luz' %}kWh{% else %}m³{% endif %}
+                </td>
+                <td>{{ boleta.monto }}</td>
+                
+                <td>
+                    <form 
+                        method="POST" 
+                        action="{% url 'delete_boleta' boleta.id %}"
+                        onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta boleta?');">
+                        
+                        {% csrf_token %}
+                        <button type="submit" class="btn-delete">Borrar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    {% endif %}
 
         
         {% if boletas_error %}

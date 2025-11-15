@@ -1,0 +1,90 @@
+/* account/login.css */
+
+/* --- A. CONFIGURACIÓN GLOBAL Y FONDO --- */
+body {
+    /* Mueve las propiedades de fondo de .fondo al body para que cubra toda la página */
+    background-image: url('f2.jpg'); 
+    background-size: cover;
+    background-attachment: fixed;
+    
+    /* Configuración para centrar el contenido (el formulario) */
+    display: flex; 
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    min-height: 100vh; /* Altura mínima de la vista */
+    margin: 0;
+}
+
+/* El .fondo en el HTML no es necesario si el fondo va en el body */
+/* Si se usara .fondo para un contenedor, ¡elimina las propiedades de fondo aquí! */
+/* Aquí mantengo el bloque .fondo por si lo quieres usar como un div decorativo */
+.fondo {
+    /* Propiedades de tamaño eliminadas, ya que se centrará el contenido */
+}
+
+
+/* --- B. CONTENEDOR DEL FORMULARIO (Se usa para centrar el formulario) --- */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente para legibilidad */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+}
+
+/* --- C. ESTILOS DE TÍTULOS Y BOTONES --- */
+.titulo {
+    font-size: 50px;
+    padding: 0;
+    color:#679a45; /* Verde oscuro */
+}
+
+.subtitulo {
+    width: 100%;
+    font-size: 30px;
+    color: #f9b347; /* Naranja/Amarillo */
+    padding: 0;
+    border: 4px solid transparent; /* Verde brillante */
+    /* Asegura que el subtítulo no ocupe todo el ancho si no es necesario */
+    display: inline-block; 
+}
+
+.formulario-ingreso p {
+    /* Estilo para los <p> generados por {{ form.as_p }} */
+    text-align: left;
+    color: #4c5db3;
+}
+
+.formulario-ingreso input {
+    /* Estilo para los campos de formulario */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.boton{
+    font-size: 20px;
+    background-color: #679a45; /* Verde oscuro */
+    color: #f9b347; /* Naranja/Amarillo */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* El botón ocupa todo el ancho del formulario */
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.no_tienes_cuenta{
+    font-size: 15px;
+    color:#4c5db3;
+    text-decoration: none;
+    font-weight: bold;
+    display: block; /* Para que ocupe una línea propia */
+    margin-top: 20px;
+}

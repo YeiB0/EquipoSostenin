@@ -1,0 +1,83 @@
+
+body {
+background-image: url('f3.jpg');
+background-size: cover;
+background-attachment: fixed;
+
+/* Configuración para centrar el contenido (el formulario) */
+display: flex; 
+justify-content: center; /* Centrado horizontal */
+align-items: center; /* Centrado vertical */
+min-height: 100vh; /* Altura mínima de la vista */
+margin: 0;
+}
+
+table {
+width: 100%; border-collapse: collapse; margin-top: 20px;
+}
+
+th, td { 
+border: 1px solid #ccc; padding: 8px; text-align: left; background-color: #fff;
+}
+
+th {
+background-color: #f4f4f4;
+}
+
+.success { 
+
+    background-color: #e6ffe6;
+}
+.error { 
+    background-color: #ffe6e6; 
+    color: #a00;
+}
+
+.container { 
+    max-width: 900px; 
+    margin: auto;
+}
+
+.header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.chart-container {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.btn-delete {
+background-color: #ff4d4d;
+color: white;
+border: none;
+padding: 5px 10px;
+border-radius: 4px;
+cursor: pointer;
+font-size: 0.9em;
+}
+
+.btn-delete:hover {
+background-color: #cc0000;
+}
+
+.panel_control{
+    margin-top: 20px;
+}
+
+.subir_boleta{
+    font-size: 20px;
+    background-color: rgb(52, 96, 32);
+    color: rgb(224, 173, 20);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}   

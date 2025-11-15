@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block content %}
+<div class="register-container">
+  <div class="login-container">
+  <h2 class="titulo">Crear una cuenta</h2>
+
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class= "boton" type="submit">Registrarse</button>
+    </form>
+  </div>
+    <div>
+      <p class="tienes_cuenta">¿Ya tienes una cuenta? <a class="vuelve" href="{% url 'login' %}">Inicia sesión aquí</a>.</p>
+    </div>
+</div>
+{% endblock %}

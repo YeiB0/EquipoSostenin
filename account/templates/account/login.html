@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Log-In{% endblock %}
+
+{% block content %}
+
+<div class="login-container">
+    
+    <h1 class="titulo">Inicia Sesión</h1>
+    
+    <h2 class="subtitulo">Usuario</h2>
+    
+    <form class="formulario-ingreso" method="POST"> 
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button class="boton" type="submit">Ingresar</button>
+    </form>
+
+    <p><a class="no_tienes_cuenta" href="{% url 'register' %}">¿No tienes cuenta? Regístrate</a></p>
+</div>
+{% endblock %}
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Subir Boleta</title>
+</head>
+<body>
+
+    <h2>Sube tu nueva boleta</h2>
+    <p>Por favor, selecciona el servicio y el archivo PDF de tu boleta.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit">Guardar y Procesar Boleta</button>
+    </form>
+
+</body>
+</html>

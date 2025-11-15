@@ -1,36 +1,54 @@
-.main_container{
-    background-color: #fff;
-    width: 100px;
-    height: 100px;
-}
-
 body {
-    background-image: url('f1.jpg');
-    background-size: cover;
-    background-attachment: fixed;
+    /* 1. Imagen de Fondo: Asegura que la ruta de la imagen sea correcta */
+    background-image: url('f1.jpg'); 
+    background-size: cover;          /* Cubre toda la ventana sin repetir */
+    background-attachment: fixed;    /* Mantiene la imagen fija al hacer scroll */
 
-    font-family: Arial, sans-serif;
+    /* 2. Propiedades Clave para CENTRAR EL CONTENEDOR */
+    display: flex;             /* Habilita el modo flexible */
+    justify-content: center;   /* Centra horizontalmente */
+    align-items: center;       /* Centra verticalmente */
+    min-height: 100vh;         /* Ocupa toda la altura de la ventana */
+
+    /* Reset de márgenes para evitar barras de desplazamiento */
     margin: 0;
     padding: 0;
 }
 
+/* ================================================= */
+/* B. ESTILO DEL CONTENEDOR FLOTANTE (.main-container) */
+/* ================================================= */
+.main-container{
+    /* 3. Fondo Opaco: Esto crea el contraste con la imagen de fondo */
+    background-color: #ffffff; 
+    
+    /* 4. Sombra para el Efecto "Flotante" */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); 
+    
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%; 
+    max-width: 500px;
+}
+
+
 .titulo_boleta{
     font-size: 40px;
-    color: rgb(72, 165, 30);
+    color: #679a45;
     text-align: center;
     margin-top: 20px;
 }
 
 .seleciona_archivo{
     font-size: 20px;
-    color: rgb(224, 173, 20);
+    color: #f9b347; /* Naranja/Amarillo */
     text-align: center;
     margin-bottom: 30px;
 }
 
 .boton{
-    background-color: rgb(52, 96, 32);
-    color: rgb(224, 173, 20);
+    background-color: #679a45; /* Verde oscuro */
+    color: #f9b347;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -43,5 +61,5 @@ body {
 .formulario-boleta {
     /* Estilo para los <p> generados por {{ form.as_p }} */
     text-align: left;
-    color: rgb(72, 165, 30);
+    color: #679a45;
 }

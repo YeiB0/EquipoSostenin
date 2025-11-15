@@ -9,21 +9,24 @@ from django.contrib import messages
 
 @login_required
 def home_view(request):
-    # Como está protegido por @login_required, ya no necesitamos
-    # el 'if request.user.is_authenticated'.
+    # En tu archivo views.py
+    from django.shortcuts import render
+    from django.contrib.auth.decorators import login_required
+    from django.http import HttpResponse # Ya no la necesitamos
+
+@login_required
+def home_view(request):
     
-    # Este es el nuevo "Hub" para usuarios logueados
-    html = (
-        f"<h1>Bienvenido al Hub, {request.user.username}!</h1>"
-        f"<p>Hola {request.user.first_name}, ¿Qué deseas hacer hoy?</p>"
-        "<hr>"
-        "<p><a href='/dashboard/' style='font-size: 1.2em;'>Ver mi Dashboard (Gráficos)</a></p>"
-        "<p><a href='/subir/' style='font-size: 1.2em;'>Subir Nueva Boleta</a></p>"
-        "<hr style='margin-top: 20px;'>" # Separador
-        # Añadimos el link de logout que apunta a la URL que creamos
-        "<p><a href='/account/logout/' style='font-size: 1em; color: gray;'>Cerrar Sesión</a></p>"
-    )
-    return HttpResponse(html)
+    # 1. Creamos el diccionario de contexto con las variables que queremos pasar
+    contexto = {
+        'username': request.user.username,
+        'first_name': request.user.first_name,
+        # Puedes añadir más variables aquí si las necesitas
+    }
+    
+    # 2. Usamos render() para combinar el contexto con la plantilla hub.html
+    # Django buscará 'hub.html' en las carpetas 'templates' de tus apps.
+    return render(request, 'home.html', contexto)
 
 @login_required
 def subir_boleta_view(request):
@@ -39,7 +42,7 @@ def subir_boleta_view(request):
             return redirect('home')
     else:
         form = BoletaForm()
-    return render(request, 'EquipoSostenin/subir_boleta.html', {'form': form})
+    return render(request, 'subir_boleta.html', {'form': form})
 
 @login_required
 def dashboard_view(request):
@@ -78,7 +81,7 @@ def dashboard_view(request):
         'chart_agua_data_consumo': chart_agua_data_consumo,
         'boletas_agua_existen': boletas_agua.exists(),
     }
-    return render(request, 'EquipoSostenin/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
         
     # 3. Pasamos los datos a la plantilla
     context = {

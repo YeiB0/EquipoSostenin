@@ -5,7 +5,7 @@
 {% block content %}
 <div class="register-container">
   <div class="login-container">
-  <h2 class="titulo">Crear una cuenta</h2>
+    <h2 class="titulo">Crear una cuenta</h2>
 
     {% if messages %}
       <ul>
@@ -20,9 +20,10 @@
       {{ form.as_p }}
       <button class= "boton" type="submit">Registrarse</button>
     </form>
-  </div>
+  
     <div>
       <p class="tienes_cuenta">¿Ya tienes una cuenta? <a class="vuelve" href="{% url 'login' %}">Inicia sesión aquí</a>.</p>
     </div>
+  </div>
 </div>
 {% endblock %}

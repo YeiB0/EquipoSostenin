@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block body_class %}body-centered bg-f2{% endblock %}
+
+{% block content %}
+<div class="box-container" style="max-width: 500px;">
+    
+    {%if messages %}
+        {% for message in messages %}
+            <div style="background-color: #f9b347; color: #679a45; padding: 10px; font-weight: bold; margin-bottom: 20px; border-radius: 5px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h2 class="titulo">Crear una cuenta</h2>
+
+    <form class="form-wrapper" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="boton" type="submit">Registrarse</button>
+    </form>
+ 
+    <div>
+      <p><a class="form-link" href="{% url 'login' %}">¿Ya tienes una cuenta? Inicia sesión aquí</a></p>
+    </div>
+</div>
+{% endblock %}

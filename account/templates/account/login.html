@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block body_class %}body-centered bg-f2{% endblock %}
+
+{% block content %}
+<div class="box-container">
+    
+    {%if messages %}
+        {% for message in messages %}
+            <div style="background-color: #f9b347; color: #679a45; padding: 10px; font-weight: bold; margin-bottom: 20px; border-radius: 5px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1 class="titulo">Inicia Sesión</h1>
+    <h2 class="subtitulo">Usuario</h2>
+    
+    <form class="form-wrapper" method="POST"> 
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="boton" type="submit">Ingresar</button>
+    </form>
+
+    <a class="form-link" href="{% url 'register' %}">¿No tienes cuenta? Regístrate</a>
+</div>
+{% endblock %}

@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 class Boleta(models.Model):
     SERVICIO_CHOICES = [
-        ('Luz', 'Luz (Chilquinta)'),
-        ('Agua', 'Agua (Esval)'),
+        ('Luz', 'Luz'),
+        ('Agua', 'Agua'),
     ]
     
     ESTADO_CHOICES = [

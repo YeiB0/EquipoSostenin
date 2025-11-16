@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Subir Boleta{% endblock %}
+
+{% block body_class %}body-centered bg-f1{% endblock %}
+
+{% block content %}
+
+<div class="box-container drop-zone" id="drop-zone"> 
+
+    {%if messages %}
+        {% for message in messages %}
+            <div style="background-color: #f9b347; color: #679a45; padding: 10px; font-weight: bold; margin-bottom: 20px; border-radius: 5px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <h2 class="titulo">Sube tu nueva boleta</h2>
+    <p class="subtitulo" style="color: #679a45;">Selecciona el servicio y el archivo PDF.</p>
+    
+    <form method="post" enctype="multipart/form-data" id="upload-form">
+        {% csrf_token %}
+        <div class="form-wrapper">
+            
+            <p>
+                <label for="{{ form.servicio.id_for_label }}">Servicio:</label>
+                {{ form.servicio }}
+            </p>
+
+            <p>
+                <label for="{{ form.archivo_boleta.id_for_label }}">Archivo boleta:</label>
+                <label for="{{ form.archivo_boleta.id_for_label }}" class="form-file-button">
+                    Seleccionar archivo
+                </label>
+                {{ form.archivo_boleta }}
+                <span class="form-file-text">Sin archivos seleccionados</span>
+            </p>
+
+        </div>
+
+        <p class="drop-zone-text" id="drop-zone-text">... o arrastra y suelta tu PDF aquí ...</p>
+        
+        <button class="boton" type="submit">Guardar y Procesar Boleta</button>
+    </form>
+</div>
+
+<script>
+    // --- SCRIPT 1: Para mostrar el nombre del archivo (ya lo tenías) ---
+    const fileInput = document.getElementById('{{ form.archivo_boleta.id_for_label }}');
+    const fileText = document.querySelector('.form-file-text');
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                fileText.textContent = fileInput.files[0].name;
+                fileText.style.fontStyle = 'normal';
+                fileText.style.color = '#333';
+            } else {
+                fileText.textContent = 'Sin archivos seleccionados';
+                fileText.style.fontStyle = 'italic';
+                fileText.style.color = '#777';
+            }
+        });
+    }
+
+    // --- SCRIPT 2: LÓGICA DE DRAG AND DROP (¡NUEVO!) ---
+    const dropZone = document.getElementById('drop-zone');
+    const uploadForm = document.getElementById('upload-form');
+    
+    if (dropZone) {
+        // 1. Prevenir el comportamiento por defecto (que abre el archivo)
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        // 2. Añadir el estilo visual cuando se arrastra sobre la zona
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, function() {
+                dropZone.classList.add('drag-over');
+            }, false);
+        });
+
+        // 3. Quitar el estilo visual cuando se sale de la zona
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, function() {
+                dropZone.classList.remove('drag-over');
+            }, false);
+        });
+
+        // 4. ¡LA PARTE MÁS IMPORTANTE! Manejar el archivo soltado
+        dropZone.addEventListener('drop', function(e) {
+            // Obtenemos los archivos que el usuario soltó
+            const droppedFiles = e.dataTransfer.files;
+            
+            // ¡Asignamos esos archivos al input oculto!
+            fileInput.files = droppedFiles;
+            
+            // Disparamos el evento 'change' manualmente
+            // para que el SCRIPT 1 actualice el nombre del archivo
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+        }, false);
+    }
+</script>
+{% endblock %}

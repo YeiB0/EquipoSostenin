@@ -1,38 +1,33 @@
 /* static/css/main.css */
 
 /* ============================================= */
-/* 1. CLASES DE LAYOUT (La solución al centrado) */
+/* 1. CLASES DE LAYOUT */
 /* ============================================= */
-
-/* Layout para páginas de pantalla completa (Dashboard) */
 .body-full-width {
     background-size: cover;
     background-attachment: fixed;
     margin: 0;
-    padding: 3em 0; /* Espacio arriba y abajo */
+    padding: 3em 0;
+    font-family: 'Nunito', sans-serif;
 }
-
-/* Layout para páginas centradas (Login, Hub, Subir) */
 .body-centered {
     background-size: cover;
     background-attachment: fixed;
     margin: 0;
-    padding: 0;
-    
-    /* El centrado que ya tenías */
+    padding: 2em 0; /* Añadimos padding para que el hub no se pegue arriba */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
 }
 
 /* ============================================= */
-/* 2. IMÁGENES DE FONDO (Tus imágenes) */
+/* 2. IMÁGENES DE FONDO */
 /* ============================================= */
-.bg-f1 { background-image: url('../img/f1.jpg'); } /* Para Subir Boleta */
-.bg-f2 { background-image: url('../img/f2.jpg'); } /* Para Login/Register */
-.bg-f3 { background-image: url('../img/f3.jpg'); } /* Para Hub/Dashboard */
-
+.bg-f1 { background-image: url('../img/f1.jpg'); }
+.bg-f2 { background-image: url('../img/f2.jpg'); }
+.bg-f3 { background-image: url('../img/f3.jpg'); }
 
 /* ============================================= */
 /* 3. BARRA DE NAVEGACIÓN (Navbar) */
@@ -41,20 +36,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(253, 253, 248, 0.95);
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: fixed; /* Fija en la parte superior */
+    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+    box-sizing: border-box;
     z-index: 1000;
 }
 .navbar-brand {
     font-size: 1.5em;
     font-weight: bold;
-    color: #679a45; /* Tu verde */
+    color: #679a45;
     text-decoration: none;
 }
 .navbar-links a {
@@ -65,22 +60,17 @@
     transition: color 0.2s;
 }
 .navbar-links a:hover {
-    color: #f9b347; /* Tu naranja */
+    color: #f9b347;
 }
-
-/* Contenedor principal para evitar que el contenido se meta debajo del navbar */
 .main-content {
-    margin-top: 80px; /* Altura del navbar + un poco de espacio */
+    margin-top: 80px;
 }
-
 
 /* ============================================= */
 /* 4. ESTILOS COMUNES (Botones, Cajas) */
 /* ============================================= */
-
-/* Caja genérica para Login, Register, Subir, Hub */
 .box-container {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(253, 253, 248, 0.95);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
@@ -89,12 +79,10 @@
     text-align: center;
     box-sizing: border-box;
 }
-
-/* Botón unificado */
 .boton {
     font-size: 20px;
-    background-color: #679a45; /* Verde oscuro */
-    color: #f9b347; /* Naranja/Amarillo */
+    background-color: #679a45;
+    color: #f9b347;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -106,12 +94,11 @@
     display: inline-block;
     box-sizing: border-box;
     transition: background-color 0.2s;
+    font-family: 'Nunito', sans-serif;
 }
 .boton:hover {
     background-color: #588339;
 }
-
-/* Títulos y textos */
 .titulo {
     font-size: 50px;
     padding: 0;
@@ -124,8 +111,6 @@
     color: #f9b347;
     margin-bottom: 30px;
 }
-
-/* Formularios */
 .form-wrapper p {
     text-align: left;
     color: #679a45;
@@ -140,7 +125,8 @@
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* ¡Importante! */
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
 }
 .form-link {
     font-size: 15px;
@@ -158,32 +144,81 @@
 /* 5. ESTILOS ESPECIALES (Hub, Dashboard) */
 /* ============================================= */
 
-/* --- HUB --- */
+/* --- ¡ESTILOS DEL HUB CORREGIDOS! --- */
 .hub-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+    /* Es la caja blanca contenedora */
     width: 100%;
     max-width: 900px;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(253, 253, 248, 0.95);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
 }
+
+/* Fila superior para los datos dinámicos */
+.hub-row-dynamic {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: stretch; /* Asegura que todas las tarjetas tengan la misma altura */
+}
+
+/* Fila inferior para el texto estático */
+.hub-row-static {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px; /* Espacio entre las filas */
+    align-items: stretch;
+}
+
+/* Tarjeta genérica */
 .hub-card {
     flex: 1;
     padding: 20px;
     text-align: center;
     border-radius: 8px;
 }
+
 .hub-card.central {
     background-color: #679a45;
     color: white;
 }
-.hub-card.lateral {
+
+/* Tarjetas de datos (Luz/Agua) */
+.hub-card.data {
     background-color: #f3fcdb;
+    
+    /* --- ¡ESTA ES LA LÓGICA CLAVE! --- */
+    display: flex;             /* 1. Activa Flexbox */
+    flex-direction: column; 
 }
+
+.hub-card.data .boton {
+    margin-top: auto; /* ¡Esta es la magia! Empuja el botón al fondo */
+}
+/* Tarjetas de info (Qué es/Qué hace) */
+.hub-card.static {
+    background-color: #f3fcdb;
+    padding: 25px;
+}
+.hub-card.static h2 {
+    border-bottom: 2px solid #679a45;
+    padding-bottom: 10px;
+}
+.hub-card.static p {
+    text-align: left;
+    line-height: 1.6;
+    font-size: 0.95em;
+    color: #555;
+}
+
+
 .hub-card h2 {
     font-size: 24px;
     margin-top: 0;
@@ -202,18 +237,21 @@
 .hub-card .boton {
     background-color: #f9b347;
     color: #679a45;
+    font-family: 'Nunito', sans-serif;
 }
 .hub-card .logout-link {
     color: #f9b347;
     font-weight: bold;
     text-decoration: none;
 }
+/* --- FIN DE ESTILOS DEL HUB --- */
+
 
 /* --- DASHBOARD --- */
 .dashboard-container {
     max-width: 900px; 
-    margin: auto; /* El centrado del dashboard lo hace él mismo */
-    background-color: rgba(255, 255, 255, 0.9);
+    margin: auto;
+    background-color: rgba(253, 253, 248, 0.9);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -237,21 +275,20 @@
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.2s;
+    font-family: 'Nunito', sans-serif;
 }
 .dashboard-header .boton-subir:hover {
     background-color: #588339;
 }
-
 .chart-container {
     width: 100%;
-    background-color: #fff;
+    background-color: #fdfdf8;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
     margin-top: 30px;
     box-sizing: border-box;
 }
-
 table {
     width: 100%; 
     border-collapse: collapse; 
@@ -261,12 +298,11 @@ th, td {
     border: 1px solid #ccc; 
     padding: 8px; 
     text-align: left; 
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(253, 253, 248, 0.95);
 }
 th { background-color: #f4f4f4; }
 .success { background-color: rgba(230, 255, 230, 0.95); }
 .error { background-color: rgba(255, 230, 230, 0.95); color: #a00; }
-
 .btn-delete {
     background-color: #ff4d4d;
     color: white;
@@ -275,9 +311,9 @@ th { background-color: #f4f4f4; }
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
+    font-family: 'Nunito', sans-serif;
 }
 .btn-delete:hover { background-color: #cc0000; }
-
 .huella-container {
     display: flex;
     gap: 20px;
@@ -285,7 +321,7 @@ th { background-color: #f4f4f4; }
 }
 .huella-card {
     flex: 1;
-    background-color: #fff;
+    background-color: #fdfdf8;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
@@ -315,19 +351,64 @@ th { background-color: #f4f4f4; }
     font-weight: bold; 
     font-size: 1.1em;
 }
-/* ============================================= */
-/* 6. ESTILOS AVANZADOS PARA FORMULARIOS (NUEVO) */
-/* ============================================= */
+.huella-ranking {
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 20px; /* Forma de píldora */
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #fff; /* Texto blanco */
+}
+.ranking-verde {
+    background-color: #1E8E3E; /* Verde */
+}
+.ranking-naranja {
+    background-color: #f9b347; /* Naranja */
+    color: #679a45; /* Texto verde (para contraste) */
+}
+.ranking-rojo {
+    background-color: #D93025; /* Rojo */
+}
+.huella-tip {
+    font-size: 1.05em;
+    color: #555;
+    font-style: italic;
+    line-height: 1.5;
+    background-color: #f7f7f7;
+    border-left: 5px solid #679a45; /* Borde verde */
+    padding: 10px 15px;
+    margin-top: 20px;
+    border-radius: 0 5px 5px 0;
+}
 
-/* Ocultamos el botón feo de "Seleccionar archivo" */
+/* ============================================= */
+/* 6. ESTILOS PARA "DRAG AND DROP" */
+/* ============================================= */
+.drop-zone {
+    border: 3px dashed #ccc;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.drop-zone.drag-over {
+    background-color: rgba(230, 255, 230, 0.95);
+    border-color: #679a45;
+}
+.drop-zone-text {
+    font-weight: bold;
+    color: #aaa;
+    margin-top: 15px;
+    font-style: italic;
+    transition: color 0.3s;
+}
+.drop-zone.drag-over .drop-zone-text {
+    color: #679a45;
+}
 .form-wrapper input[type="file"] {
     display: none;
 }
-
-/* Creamos nuestro propio botón bonito */
 .form-file-button {
-    background-color: #f9b347; /* Tu naranja */
-    color: #679a45; /* Tu verde */
+    background-color: #f9b347;
+    color: #679a45;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
@@ -337,10 +418,8 @@ th { background-color: #f4f4f4; }
     margin-top: 5px;
 }
 .form-file-button:hover {
-    background-color: #e0a030; /* Naranja más oscuro */
+    background-color: #e0a030;
 }
-
-/* Estilo para el texto "Sin archivos seleccionados" */
 .form-file-text {
     margin-left: 10px;
     font-style: italic;
@@ -348,40 +427,84 @@ th { background-color: #f4f4f4; }
 }
 
 /* ============================================= */
-/* 7. ESTILOS PARA "DRAG AND DROP" (NUEVO) */
+/* 7. REGLAS PARA MÓVILES (MEDIA QUERIES) */
 /* ============================================= */
+@media (max-width: 768px) {
+    .body-centered .main-content {
+        padding-top: 20px;
+    }
+    .body-full-width {
+        padding: 1em 0;
+    }
 
-/*
-   Esta clase se añadirá a la caja de "Subir Boleta"
-   para identificarla como una zona de "drop".
-*/
-.drop-zone {
-    /* Un borde punteado para que se vea como una zona activa */
-    border: 3px dashed #ccc;
+    /* 1. Hacemos que las filas del Hub se apilen */
+    .hub-row-dynamic, .hub-row-static {
+        flex-direction: column; /* Apila las tarjetas */
+    }
+    .hub-container {
+        width: 90%;
+        max-width: 500px;
+    }
+
+    /* 2. Hacemos que la Huella (2 columnas) se apile */
+    .huella-container {
+        flex-direction: column;
+    }
+
+    /* 3. Barra de navegación apilada */
+    .navbar {
+        flex-direction: column;
+        padding: 10px;
+        position: relative; 
+    }
+    .navbar-links {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    .navbar-links a {
+        margin: 0 10px;
+    }
+    .main-content {
+        margin-top: 20px; 
+    }
+
+    /* 4. Cajas más anchas */
+    .box-container, .dashboard-container {
+        width: 95%;
+        padding: 15px;
+    }
     
-    /* Transición suave para el cambio de color */
-    transition: background-color 0.3s, border-color 0.3s;
-}
+    .titulo {
+        font-size: 36px;
+    }
+    .subtitulo {
+        font-size: 18px;
+    }
+    
+    /* 5. Header del Dashboard apilado */
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dashboard-header .boton-subir {
+        margin-top: 15px;
+        width: 100%;
+        text-align: center;
+    }
 
-/*
-   Esta clase se añade con JavaScript en el momento
-   en que el usuario arrastra un archivo sobre la caja.
-*/
-.drop-zone.drag-over {
-    /* Usamos tus colores de éxito */
-    background-color: rgba(230, 255, 230, 0.95); /* Tu verde .success */
-    border-color: #679a45; /* Tu verde principal */
-}
-
-/* (Opcional) Un pequeño texto de ayuda dentro de la zona */
-.drop-zone-text {
-    font-weight: bold;
-    color: #aaa;
-    margin-top: 15px;
-    font-style: italic;
-    transition: color 0.3s;
-}
-
-.drop-zone.drag-over .drop-zone-text {
-    color: #679a45;
+    /* 6. Ocultar columnas de tabla no cruciales */
+    .tabla-boletas th:nth-child(2), /* Oculta 'Fecha Emisión' */
+    .tabla-boletas th:nth-child(4) { /* Oculta 'Monto Total' */
+        display: none;
+    }
+    .tabla-boletas td:nth-child(2),
+    .tabla-boletas td:nth-child(4) {
+        display: none;
+    }
+    
+    th, td {
+        padding: 6px;
+    }
 }

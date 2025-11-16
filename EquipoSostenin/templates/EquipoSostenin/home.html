@@ -1,28 +1,96 @@
 {% extends "base.html" %}
 
-{% block title %}Hub Principal{% endblock %}
+{% block title %}Inicio{% endblock %}
 
 {% block body_class %}body-centered bg-f3{% endblock %}
 
 {% block content %}
+
 <div class="hub-container"> 
     
-    <div class="hub-card lateral">
-        <h2>¿Qué es?</h2>
-        <p>Una introducción sobre tu app.</p>
-        <a class="boton" href="{% url 'dashboard' %}">Ver mi Dashboard</a> 
-    </div>
+    <div class="hub-row-dynamic">
+        
+        <div class="hub-card data">
+            {% if huella_luz_snapshot %}
+                <h2 style="color: #679a45;">💡 Huella de Luz</h2>
+                <p>Tu último consumo ({{ huella_luz_snapshot.tipo }}):</p>
+                <div class="huella-ranking {{ huella_luz_snapshot.css_class }}" style="margin-bottom: 20px;">
+                    {% if huella_luz_snapshot.porcentaje > 0 %}+{% endif %}
+                    {{ huella_luz_snapshot.porcentaje|floatformat:0 }}%
+                </div>
+                <p style="font-size: 0.9em;">(vs. el promedio nacional)</p>
+                
+                <a class="boton" href="{% url 'dashboard' %}">Ir a Mi Panel</a> 
 
-    <div class="hub-card central">
-        <h2>¡Hola, {{ user.username }}!</h2>
-        <p>¿Qué deseas hacer hoy?</p>
+            {% else %}
+                <h2 style="color: #679a45;">💡 Huella de Luz</h2>
+                <p style="font-size: 0.9em; margin-top: 40px;">
+                    Aún no has subido boletas de Luz. 
+                    ¡Sube una para ver tu huella!
+                </p>
+                <a class="boton" href="{% url 'subir_boleta' %}">Subir Boleta de Luz</a>
+            {% endif %}
         </div>
 
-    <div class="hub-card lateral">
-        <h2>¿Qué hace?</h2>
-        <p>Aquí puedes subir tus boletas.</p>
-        <a class="boton" href="{% url 'subir_boleta' %}">Subir Nueva Boleta</a>
-    </div>
+        <div class="hub-card central" style="display: flex; flex-direction: column; justify-content: center;">
+        <h2 style="font-size: 1.8em;">¡Hola, {{ nombre_real|default:nombre_usuario }}!</h2>
+        
+        <hr style="border-color: #f9b347; opacity: 0.5; margin: 15px 0;">
+        <p style="font-size: 1.1em; color: #f3fcdb;"><strong>Tip de Ahorro:</strong></p>
+        <p style="font-size: 1em; color: #f3fcdb; line-height: 1.6; font-style: italic;">
+            "{{ tip_del_dia }}"
+        </p>
+        </div>
 
-</div>
-{% endblock %}
+        <div class="hub-card data">
+            {% if huella_agua_snapshot %}
+                <h2 style="color: #679a45;">💧 Huella de Agua</h2>
+                <p>Tu último consumo ({{ huella_agua_snapshot.tipo }}):</p>
+                <div class="huella-ranking {{ huella_agua_snapshot.css_class }}" style="margin-bottom: 20px;">
+                    {% if huella_agua_snapshot.porcentaje > 0 %}+{% endif %}
+                    {{ huella_agua_snapshot.porcentaje|floatformat:0 }}%
+                </div>
+                <p style="font-size: 0.9em;">(vs. el promedio nacional)</p>
+                
+                <a class="boton" href="{% url 'dashboard' %}">Ir a Mi Panel</a> 
+
+            {% else %}
+                <h2 style="color: #679a45;">💧 Huella de Agua</h2>
+                <p style="font-size: 0.9em; margin-top: 40px;">
+                    Aún no has subido boletas de Agua. 
+                    ¡Sube una para ver tu huella!
+                </p>
+                <a class="boton" href="{% url 'subir_boleta' %}">Subir Boleta de Agua</a>
+            {% endif %}
+        </div>
+        
+    </div> <div class="hub-row-static">
+        
+        <div class="hub-card static">
+            <h2>¿Qué es la "Huella de Consumo"?</h2>
+            <p>
+                Es un indicador que mide tu consumo de recursos (luz y agua) y lo compara con el promedio nacional. 
+                El nombre se inspira en la "Huella de Carbono", pero se enfoca en tu hogar.
+                <br><br>
+                Calculamos el porcentaje de diferencia entre tu última boleta y el promedio nacional, 
+                ayudándote a entender si tu consumo es eficiente.
+            </p>
+        </div>
+        
+        <div class="hub-card static">
+            <h2>Nuestra Misión (ODS 12)</h2>
+            <p>
+                Somos una iniciativa de estudiantes de la Universidad Federico Santa María. 
+                Nuestra misión es ayudarte a tomar el control de tu consumo, aportando 
+                directamente al <strong>ODS 12 de la ONU: Consumo Responsable</strong>.
+            </p>
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="https://www.un.org/sustainabledevelopment/es/sustainable-consumption-production/" 
+                   class="logout-link" 
+                   target="_blank">
+                    Más información sobre el ODS 12 aquí
+                </a>
+            </p>
+        </div>
+
+    </div> </div> {% endblock %}

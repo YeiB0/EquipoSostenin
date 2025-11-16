@@ -20,26 +20,32 @@
     
     <hr>
 
-    {% if boletas_luz_existen %}
-        <div class="chart-container">
-            <h3>Historial de Consumo - Luz</h3>
-            <canvas id="graficoLuz"></canvas>
-        </div>
-    {% endif %}
-    {% if boletas_agua_existen %}
-        <div class="chart-container">
-            <h3>Historial de Consumo - Agua</h3>
-            <canvas id="graficoAgua"></canvas>
-        </div>
-    {% endif %}
+    {% if boletas_ok %}
+        {% if boletas_luz_existen %}
+            <div class="chart-container">
+                <h3>Historial de Consumo - Luz</h3>
+                <canvas id="graficoLuz"></canvas>
+            </div>
+        {% endif %}
+        {% if boletas_agua_existen %}
+            <div class="chart-container">
+                <h3>Historial de Consumo - Agua</h3>
+                <canvas id="graficoAgua"></canvas>
+            </div>
+        {% endif %}
 
-    {% if huella %}
+        {% if huella %}
         <h2 style="margin-top: 40px; color: #333;">Tu Huella de Consumo (Último Mes)</h2>
         <div class="huella-container">
             
             {% if huella.luz %}
             <div class="huella-card">
                 <h3>💡 Electricidad</h3>
+                
+                <div class="huella-ranking {{ huella.luz.css_class }}">
+                    {{ huella.luz.ranking }}
+                </div>
+
                 <div class="huella-stat">
                     <span class="huella-stat-label">Tu Consumo:</span> 
                     {{ huella.luz.ultimo_consumo|floatformat:0 }} kWh
@@ -58,17 +64,26 @@
                         (bajo el promedio)
                     {% endif %}
                 </div>
-                <hr>
-                <div class="huella-stat">
+                
+                <div class="huella-tip">
+                    {{ huella.luz.tip }}
+                </div>
+
+                <hr style="margin-top: 20px;">
+                <div class="huella-stat" style="font-size: 0.9em; color: #777;">
                     <span class="huella-stat-label">Promedio App:</span>
                     {{ huella.luz.promedio_app|floatformat:0 }} kWh
                 </div>
             </div>
             {% endif %}
-
             {% if huella.agua %}
             <div class="huella-card">
                 <h3>💧 Agua</h3>
+
+                <div class="huella-ranking {{ huella.agua.css_class }}">
+                    {{ huella.agua.ranking }}
+                </div>
+
                 <div class="huella-stat">
                     <span class="huella-stat-label">Tu Consumo:</span> 
                     {{ huella.agua.ultimo_consumo|floatformat:2 }} m³
@@ -91,8 +106,13 @@
                         (bajo el promedio)
                     {% endif %}
                 </div>
-                <hr>
-                <div class="huella-stat">
+                
+                <div class="huella-tip">
+                    {{ huella.agua.tip }}
+                </div>
+                
+                <hr style="margin-top: 20px;">
+                <div class="huella-stat" style="font-size: 0.9em; color: #777;">
                     <span class="huella-stat-label">Promedio App:</span>
                     {{ huella.agua.promedio_app|floatformat:2 }} m³
                 </div>
@@ -100,10 +120,9 @@
             {% endif %}
             </div>
     {% endif %}
-    
-    <h3 style="margin-top: 40px; color: #333;">Mis Boletas Procesadas</h3>
-    {% if boletas_ok %}
-        <table>
+        
+        <h3 style="margin-top: 40px; color: #333;">Mis Boletas Procesadas</h3>
+        <table class="tabla-boletas">
             <thead>
                 <tr>
                     <th>Servicio</th>
@@ -139,13 +158,29 @@
                 {% endfor %}
             </tbody>
         </table>
+
     {% else %}
-        <p>Aún no tienes boletas procesadas. ¡Intenta <a href="{% url 'subir_boleta' %}">subir una</a>!</p>
+        <div class="huella-card" style="margin-top: 30px; text-align: center;">
+            <h3 style="font-size: 1.5em; color: #679a45;">¡Bienvenido, {{ nombre_usuario }}!</h3>
+            <p style="font-size: 1.1em; color: #555; line-height: 1.6;">
+                Este es tu panel de control. Por ahora está vacío porque 
+                aún no has subido ninguna boleta.
+                <br><br>
+                Sube tu primer PDF para que podamos generar tus gráficos y 
+                calcular tu primera "Huella de Consumo".
+            </p>
+            
+            <a href="{% url 'subir_boleta' %}" class="boton" 
+               style="max-width: 300px; margin: 20px auto 0 auto; background-color: #f9b347; color: #679a45;">
+                + Subir mi primera boleta
+            </a>
+        </div>
+
     {% endif %}
     
     {% if boletas_error %}
         <h3 style="margin-top: 40px; color: #333;">Boletas con Error de Procesamiento</h3>
-        <table>
+        <table class="tabla-boletas-error">
             <thead>
                 <tr>
                     <th>Fecha de Subida</th>
